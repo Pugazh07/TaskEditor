@@ -1,0 +1,65 @@
+.Task{
+    padding: 10px;
+    border: 1px solid gray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    background-color: rgba(255,255,255, 0.7);
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+.Task img{
+    width: 64px;
+    padding: 4px;
+}
+
+.Details {
+    display: flex;
+    flex-grow: 4;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.task_msg{
+    font-size: 1.1em;
+}
+
+.editOptions{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+
+.editOptions i{
+    box-sizing: border-box;
+    background-color: rgb(255,255,255, 0.2);
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 4px;
+    padding: 5px;
+    margin: 0;
+}
+
+
+.editOptions i:nth-child(1){
+    margin-left: 10px;
+}
+
+.editOptions .Button i:nth-child(1){
+    border-top-right-radius: 0 ;
+    border-bottom-right-radius: 0;
+    display: inline-block;
+}
+
+.editOptions .Button i:nth-child(2){
+    border-top-left-radius: 0 ;
+    border-bottom-left-radius: 0;
+}
+
+.editOptions i:hover{
+    padding: 6px;
+    box-sizing: border-box;
+    border-radius: 4px;
+}

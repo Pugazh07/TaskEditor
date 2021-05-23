@@ -1,0 +1,99 @@
+.TaskEditor{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0, 0.2);
+    background-color: aliceblue;
+    padding: 6px;
+    /* width: 350px; */
+    box-sizing: border-box;
+}
+
+.TaskEditor *{
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.TaskLabel{
+    display: flex;
+    flex-direction: column;
+}
+
+.TaskLabel input[type='text']{
+    /* border: 0; */
+    border: 1px solid rgba(0,0,0, 0.3);
+    border-radius: 4px;
+}
+
+.DateTime{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    justify-content: space-between;
+    box-sizing: border-box;
+    /* position: relative; */
+}
+
+.DateTime div{
+    padding: 0px;
+    /* height: 30px; */
+    align-content: center;
+    position: relative;
+}
+
+.Buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.Buttons span,i{
+    margin-right: 20px;
+    align-self: center;
+    border: none;
+    background-color: aliceblue;
+    font-size: 1em;
+
+}
+
+.Buttons button{
+    padding: 4px 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.Buttons span:hover, .Buttons i:hover{
+    cursor: pointer;
+    font-weight: 700;
+}
+
+ .SaveCancel{
+     display: flex;
+     flex-direction: row;
+     justify-content: flex-end;
+     box-sizing: border-box;
+ } 
+
+ .DatePicker{
+     padding: 4px;
+     border: 1px solid rgba(0,0,0, 0.3);
+     border-radius: 2px;
+     padding-left: 32px;
+     width: 150px;
+ }
+
+ .DateTime i{
+     position: absolute;
+     top: 36px;
+     left: 4px;
+     z-index: 1;
+     background-color: white;
+     font-size: 1.2em;
+ }
+
+.TimePicker{
+    width: 150px;
+    padding-left: 32px;
+    border: 1px solid rgba(0,0,0, 0.3);
+}
