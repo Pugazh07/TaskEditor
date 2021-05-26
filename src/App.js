@@ -1,12 +1,12 @@
-import React , { Component } from 'react';
+import React , { useEffect } from 'react';
 import styles from './App.module.css';
 import { connect } from 'react-redux';
 
 import Tasks from './container/Tasks/Tasks';
 import * as actionTypes from './store/actions';
 
-class App extends Component{
-  /* componentDidMount() {
+const App = (props) => {
+  /* useEffect(() => {
     fetch("https://stage.api.sloovi.com/login",{
       method : 'POST',
       headers : {
@@ -42,23 +42,20 @@ class App extends Component{
           // console.log(response)
           response.json().then(data => {
             // console.log(res, data)
-            this.props.onLogin(res, data)})
+            props.onLogin(res, data)})
         })
-        // this.props.onLogin(res)
+        // props.onLogin(res)
       })
       .catch(error => {
         alert(error);
       })
-  } */
-  render(){
+  }, []) */
     return (
       <div className={styles.App}>
         {/* <button >Login</button> */}
         <Tasks/>
       </div>
     );
-  }
-  
 }
 
 const mapDispatchToProps = dispatch =>{
@@ -67,4 +64,4 @@ const mapDispatchToProps = dispatch =>{
   }
 }
 
-export default connect(null,mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

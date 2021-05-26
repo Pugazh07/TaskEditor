@@ -1,4 +1,3 @@
 export const LOGIN = "LOGIN";
-export const GETALL = "GETALL";
-export const ADD_TASK = 'ADD_TASK';
-export const DEL_TASK = 'DEL_TASK';
+export const GET_ALL_TASKS = "GET_ALL_TASKS";
+export const GET_USERS = 'GET_USERS';

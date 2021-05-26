@@ -6,9 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import * as actionTypes from '../../store/actions';
 import TaskEditor from '../../components/taskEditor/taskEditor';
-// import Task from '../../components/task/task';
-import TimePicker from 'react-bootstrap-time-picker';
-import DatePicker from 'react-datepicker';
 import Task from '../../components/task/task';
 
 class Tasks extends Component {
@@ -27,8 +24,8 @@ class Tasks extends Component {
         newState.type=type
         if(type === "new"){
             let date = new Date()
-        let timeInSeconds= date.getHours()*3600 + date.getMinutes()*60;
-            newState.task_msg="Follow up"
+            let timeInSeconds= date.getHours()*3600 + date.getMinutes()*60;
+            newState.task_msg="Your Task"
             newState.task_date = date
             newState.task_time = timeInSeconds
             newState.is_completed= 0
@@ -43,17 +40,19 @@ class Tasks extends Component {
             newState.task_time = selectedTask[0].task_time;
             newState.is_completed = selectedTask[0].is_completed;
             newState.assigned_user = selectedTask[0].assigned_user;
-            newState.refresh = this.props.pageRefresh;
         }
-        this.setState({...newState, id: task_id});
+        setTimeout(this.setState({...newState, id: task_id}),4000);
     }
     descHandler = (event) =>{
         this.setState({
             task_msg: event.target.value
         })
     }
-    dateHandler = (date) => { this. setState({task_date: date})}
+    dateHandler = (date) => { this.setState({task_date: date})}
     timeHandler = (time) => { this.setState({task_time: time})}
+    userAssignHandler = (user) => {
+        this.setState({assigned_user: user.target.value});
+    }
     taskSaveHandler=(event)=>{
         event.preventDefault();
         let year =  this.state.task_date.getFullYear();
@@ -76,7 +75,7 @@ class Tasks extends Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                assigned_user:  this.props.user, 
+                assigned_user:  this.state.assigned_user, 
                 task_date: date,
                 task_time: this.state.task_time,
                 is_completed: this.state.is_completed,
@@ -84,7 +83,7 @@ class Tasks extends Component {
                 task_msg: this.state.task_msg
             })
         }).then(response=>{
-            console.log(response)
+            console.log("Save ", response)
             response.json().then(out => {
                 console.log(out)
                 this.setState({type: null,
@@ -144,13 +143,34 @@ class Tasks extends Component {
             console.log(response)
             response.json().then(data=>{
                     console.log(data.results)
-                    this.props.onGetAllTask(data.results)
+                    this.props.onGetAllTasks(data.results)
             })
+        })
+    }
+
+    getAllUsers = () =>{
+        fetch("https://stage.api.sloovi.com/team",{
+            method: 'GET',
+            headers:  {
+            'Authorization': 'Bearer ' + this.props.token,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            }
+        }).then(response =>{
+            response.json().then(res=>{
+                console.log(res)
+                this.props.onGetAllUsers(res.results)
+            }).catch(err=>{
+                console.log(err);
+            })
+        }).catch(error =>{
+            console.log(error);
         })
     }
 
     componentDidMount=()=>{
         this.getAllTasks();
+        this.getAllUsers();
     }
     render(){
         console.log("Tasks.js ", this.state)
@@ -160,7 +180,9 @@ class Tasks extends Component {
                 descHandler={this.descHandler}
                 dateHandler={this.dateHandler}
                 timeHandler={this.timeHandler}
-                saved={this.taskSaveHandler}/> ;
+                userAssignHandler={this.userAssignHandler}
+                saved={this.taskSaveHandler}
+                cancelled={this.cancelHandler}/> ;
             }
         return(
             <div className={styles.Tasks}>
@@ -173,26 +195,21 @@ class Tasks extends Component {
                     if(this.state.id !== task.id){
                         return(
                             <div key={task.id} >
-                                {/* <input type='text' defaultValue={task.task_msg} />
-                                <input type='text' defaultValue={task.task_date}/>
-                                <input type='text' defaultValue={task.task_time} />
-                                <button onClick={() => this.editTypeHandler("edit", task.id)}>Edit</button>
-                                <button onClick={(event) => this.deleteHandler(event, task.id)}>Delete</button> */}
                                 <Task editTypeHandler={this.editTypeHandler} saved={this.taskSaveHandler} task={task}/>
                             </div>
                     )}
-                    // if(this.state.index === index)
-                    else{
+                    else if(this.state.type === "edit"){
                         return(
                             <div key={task.id}>
-                            <TaskEditor taskDetails={this.state}
-                        descHandler={this.descHandler}
-                        dateHandler={this.dateHandler}
-                        timeHandler={this.timeHandler}
-                        saved={this.taskSaveHandler}
-                        cancelled={this.cancelHandler}
-                        deleteHandler={this.deleteHandler}/>
-                        </div>
+                                <TaskEditor taskDetails={this.state}
+                                descHandler={this.descHandler}
+                                dateHandler={this.dateHandler}
+                                timeHandler={this.timeHandler}
+                                userAssignHandler={this.userAssignHandler}
+                                saved={this.taskSaveHandler}
+                                cancelled={this.cancelHandler}
+                                deleteHandler={this.deleteHandler}/>
+                            </div>
                         )
                         }
                 }
@@ -207,17 +224,13 @@ const mapStateToProps = state => {
         user: state.user,
         token: state.token,
         taskList: state.taskList,
-        numOfTasks: state.maxId,
-        showTaskEditor: state.showTaskEditor,
-        pageRefresh: state.refresh
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return{
-        onGetAllTask: (tasks) => dispatch({type: actionTypes.GETALL, tasks: tasks}),
-        onAddTask: () => dispatch({type: actionTypes.ADD_TASK, task: {name: "Puagzh"}}),
-        onDelTask: () => dispatch({type: actionTypes.DEL_TASK})
+        onGetAllTasks: (tasks) => dispatch({type: actionTypes.GET_ALL_TASKS, tasks: tasks}),
+        onGetAllUsers: (users) => dispatch({type: actionTypes.GET_USERS, users: users})
     }
 }
 

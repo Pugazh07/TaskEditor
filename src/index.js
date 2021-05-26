@@ -8,7 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import reducer from './store/reducer';
 
-const store = createStore(reducer)
+const store = createStore(reducer);
 
 ReactDOM.render(
     <Provider store={store}>

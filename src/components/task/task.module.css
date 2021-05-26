@@ -13,6 +13,7 @@
 .Task img{
     width: 64px;
     padding: 4px;
+    cursor: pointer;
 }
 
 .Details {
@@ -40,6 +41,7 @@
     border-radius: 4px;
     padding: 5px;
     margin: 0;
+    cursor: pointer;
 }
 
 
