@@ -67,13 +67,8 @@ class Tasks extends Component {
             task_id = "/" + this.state.id;
             console.log("url",task_id)
         }
-        fetch("https://stage.api.sloovi.com/task/lead_58be137bfde045e7a0c8d107783c4598"+ task_id,{
+        fetch("https://task-editor-b95e4-default-rtdb.firebaseio.com/tasks.json",{
             method: method,
-            headers: {
-                'Authorization': 'Bearer ' + this.props.token,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify({
                 assigned_user:  this.state.assigned_user, 
                 task_date: date,
@@ -132,18 +127,18 @@ class Tasks extends Component {
     }
 
     getAllTasks = () =>{
-        fetch("https://stage.api.sloovi.com/task/lead_58be137bfde045e7a0c8d107783c4598",{
+        fetch("https://task-editor-b95e4-default-rtdb.firebaseio.com/tasks.json",{
             method: 'GET',
-            headers:  {
-            'Authorization': 'Bearer ' + this.props.token,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            }
+            // headers:  {
+            // 'Authorization': 'Bearer ' + this.props.token,
+            // 'Accept': 'application/json',
+            // 'Content-Type': 'application/json',
+            // }
         }).then(response => {
             console.log(response)
             response.json().then(data=>{
-                    console.log(data.results)
-                    this.props.onGetAllTasks(data.results)
+                    console.log(data)
+                    this.props.onGetAllTasks(Object.values(data))
             })
         })
     }
@@ -170,10 +165,10 @@ class Tasks extends Component {
 
     componentDidMount=()=>{
         this.getAllTasks();
-        this.getAllUsers();
+        // this.getAllUsers();
     }
     render(){
-        console.log("Tasks.js ", this.state)
+        console.log("Tasks.js ", styles)
         let taskEditor = null;
         if(this.state.type === "new"){
             taskEditor = <TaskEditor taskDetails={this.state}
@@ -214,6 +209,7 @@ class Tasks extends Component {
                         }
                 }
                     )}
+                {/* <button>Post Users</button> */}
             </div>
         )
     }
