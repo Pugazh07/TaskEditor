@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import styles from './Tasks.module.css';
+import styles from './Tasks.module.css'
 import 'react-datepicker/dist/react-datepicker.css';
 
 import * as actionTypes from '../../store/actions';
@@ -32,7 +32,6 @@ class Tasks extends Component {
             newState.assigned_user=this.props.user;
         }
         if(type === "edit"){
-            console.log("Edit task", task_id)
             const selectedTask = this.props.taskList.filter(task => task.id === task_id)
             console.log(selectedTask)
             newState.task_msg = selectedTask[0].task_msg;
